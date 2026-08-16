@@ -1,0 +1,88 @@
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+node_modules/
+.npm/
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+
+# Expo
+.expo/
+.expo-shared/
+dist/
+web-build/
+expo-env.d.ts
+
+# EAS build artifacts (eas.json itself belongs in the repo)
+.eas/
+*.aab
+*.apk
+*.ipa
+*.tar.gz
+
+# generated native folders — `npx expo prebuild` recreates them from app.json
+/ios
+/android
+
+# Native signing material and service configs. Never commit these: they are
+# the keys to publishing under this app's identity.
+.kotlin/
+*.orig.*
+*.jks
+*.keystore
+*.p8
+*.p12
+*.key
+*.pem
+*.mobileprovision
+*.cer
+*.certSigningRequest
+google-services.json
+GoogleService-Info.plist
+credentials.json
+
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+
+# Metro
+.metro-health-check*
+.metro-cache/
+
+# debug logs
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+pnpm-debug.*
+
+# typescript / tooling caches
+*.tsbuildinfo
+.cache/
+.eslintcache
+coverage/
+
+# Claude Code — the shared project settings stay, personal overrides do not
+.claude/settings.local.json
+.claude/*.local.json
+
+# editors
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS clutter
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.claude/settings.json
