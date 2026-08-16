@@ -17,17 +17,15 @@ service in the middle.
 
 ## Screenshots
 
-<!-- Drop your images into docs/screenshots/ using these filenames and they will appear here. -->
+![The deck: live program preview, button grid, scene list, audio faders with volume meters and the OBS health row](docs/screenshots/screenshot_1.jpeg)
 
-|                    Deck                    |                    Scenes                    |                     Sources                     |
-| :----------------------------------------: | :------------------------------------------: | :---------------------------------------------: |
-| ![Deck](docs/screenshots/deck.png)         | ![Scenes](docs/screenshots/scenes.png)       | ![Sources](docs/screenshots/sources.png)        |
-|         The grid, preview and mixer        |        Scene list and transitions            |          Per-source settings and filters        |
+<p align="center"><em>The deck on a tablet in landscape — live preview and audio faders on the left, buttons,
+scenes and transition controls on the right, OBS health along the bottom.</em></p>
 
-|                  Connecting                    |                 Button editor                   |
-| :--------------------------------------------: | :---------------------------------------------: |
-| ![Connect](docs/screenshots/connect.png)       | ![Button editor](docs/screenshots/button.png)   |
-|      QR scan, Wi-Fi scan or manual entry       |        Pick an action, colour and icon          |
+![Settings: saved computers, deck management and app info](docs/screenshots/screenshot_2.jpeg)
+
+<p align="center"><em>Settings — saved computers with connect / edit / remove, and deck management
+including “Generate deck from OBS”.</em></p>
 
 ---
 
@@ -66,19 +64,25 @@ Built with Expo (React Native): one codebase, iOS and Android.
 
 ### The deck
 
-The main surface — everything you touch mid-stream lives here.
+There are only two tabs — **Deck** and **Settings** — because everything you touch mid-stream belongs
+on one screen.
 
-- **Live program preview** above the grid (preview *and* program side by side in studio mode), so you
-  can see what is going out while you cut.
+- **Live program preview** beside the grid (preview *and* program side by side in studio mode), so you
+  can see what is going out while you cut. The capture rate is switchable from 1 to 60 fps right above
+  the picture.
 - **A configurable button grid** that lights up with live state: the current scene, whether you are
   streaming, whether a mic is muted. Buttons with something to report show it under the label — the
   stream and recording timecodes tick on the button itself, mute buttons show their fader level.
 - **Audio mixer** with a fader and mute button per source, plus **live volume meters**: the same
   green/yellow/red bar OBS draws, fed by OBS's own metering at ~20 fps with a peak-hold tick, so you
   can see the mic is actually picking you up without looking at the PC.
+- **Scene list and transition controls** on the same screen, so cutting to a scene never costs a tab
+  change.
 - **OBS health row** along the bottom: CPU, FPS, frame render time, skipped and dropped frames, free
   disk space.
-- **Multiple decks** you can switch between, each with its own buttons and grid size.
+- **Multiple decks** you can switch between, each with its own buttons and grid size — and
+  **Generate deck from OBS** builds a complete one for you from the scenes and audio sources OBS is
+  already running, so a new machine is usable in a single tap.
 
 ### Scenes and sources
 
@@ -147,7 +151,7 @@ New-NetFirewallRule -DisplayName "obs-websocket" -Direction Inbound -Protocol TC
 ## Running the app
 
 ```bash
-git clone https://github.com/<your-username>/OpenStreamController.git
+git clone https://github.com/captainTvZx/OpenStreamController.git
 cd OpenStreamController
 npm install
 npx expo start
@@ -195,9 +199,9 @@ The deck is built for a tablet lying in landscape next to the keyboard, and adap
   lands on a single screen with no scrolling — on an iPad, a phone, or anything between. Fixed
   **S / M / L** sizes are there when you would rather pin the buttons and scroll.
 - **Two layouts, picked in edit mode.** *Scene left* (the default on wide screens) puts the preview and
-  faders in a left column and gives the whole right side to buttons. *Stacked* runs preview → buttons →
-  audio down the screen, which is what narrow screens always use. Either way the **health bar spans the
-  full width along the bottom**.
+  faders in a left column and gives the right side to the buttons and the scene list. *Stacked* runs
+  preview → buttons → audio down the screen, which is what narrow screens always use. Either way the
+  **health bar spans the full width along the bottom**.
 - **Portrait and landscape keep separate column counts per deck**, so rotating a tablet never scrambles
   a layout you tuned.
 - **Drag to reorder.** In edit mode, drag a button to move it; the rest reflow around it and the new
@@ -213,9 +217,8 @@ Settings.
 
 ```
 app/                     expo-router screens
-  (tabs)/index.tsx       the deck: button grid, mixer panel, health row
-  (tabs)/scenes.tsx      scenes, transitions, sources
-  (tabs)/settings.tsx    connections and decks
+  (tabs)/index.tsx       the deck: preview, button grid, scenes panel, mixer, health row
+  (tabs)/settings.tsx    computers, decks, about
   connection/[id].tsx    add/edit a computer, Wi-Fi scan
   button/[id].tsx        button editor (action, target, colour, icon)
 src/
@@ -230,6 +233,8 @@ src/
   actions/actions.ts     what a button can do, how it renders, how it executes
   store/connections.ts   saved computers (passwords go to the device keychain)
   store/decks.ts         decks and buttons, persisted to AsyncStorage
+  ui/ScenesPanel.tsx     scene list, transitions and source management on the deck
+  ui/MixerPanel.tsx      audio faders, mute buttons and the volume meters
   ui/useLayout.ts        orientation/tablet breakpoints and deck grid geometry
   ui/                    theme and shared components
 ```
@@ -292,7 +297,8 @@ the finger has moved, which leaves taps and the surrounding scroll view untouche
 
 ## Contributing
 
-Issues and pull requests are welcome. Before opening a PR:
+[Issues](https://github.com/captainTvZx/OpenStreamController/issues) and pull requests are welcome.
+Before opening a PR:
 
 ```bash
 npx tsc --noEmit     # must be clean
